@@ -7,8 +7,9 @@ namespace ToDoApp.Models
 {
     public enum Status
     {
-        ToBeDone,
+        NotDone,
         OnGoing,
+        Discarded,
         Done
     }
 }
