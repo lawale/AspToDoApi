@@ -12,23 +12,25 @@ namespace ToDoApp.Models
         public ToDoRepository(ApplicationDbContext context)
         {
             this.context = context;
+            Console.WriteLine("get here");
         }
 
         public IQueryable<ToDo> ToDos => context.ToDos;
 
         public ToDo this[int id] => ToDos.SingleOrDefault(t => t.Id == id);
 
-        public async Task<ToDo> AddToDo(ToDo toDo)
+
+        public ToDo AddToDo(ToDo toDo)
         {
             context.Add(toDo);
-            await context.SaveChangesAsync();
+            context.SaveChanges();
             return toDo;
         }
 
-        public async Task<ToDo> UpdateToDo(ToDo toDo)
+        public ToDo UpdateToDo(ToDo toDo)
         {
             context.Update(toDo);
-            await context.SaveChangesAsync();
+            context.SaveChanges();
             return toDo;
         }
     }

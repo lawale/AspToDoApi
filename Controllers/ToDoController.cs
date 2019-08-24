@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using ToDoApp.Models;
 
 namespace ToDoApp.Controllers
@@ -17,14 +18,16 @@ namespace ToDoApp.Controllers
             this.repository = repository;
         }
 
-        [HttpGet]
+        
+
+        [HttpGet()]
         public IEnumerable<ToDo> Get() => repository.ToDos;
 
         [HttpGet("{id}")]
         public ToDo Get(int id) => repository[id];
 
         [HttpPost]
-        public async Task<ToDo> Post([FromBody] ToDo toDo) {
+        public ToDo Post([FromBody] ToDo toDo) {
             var input = new ToDo
             {
                 Title = toDo.Title,
@@ -32,11 +35,11 @@ namespace ToDoApp.Controllers
                 DateCreated = DateTime.Now,
                 Status = Status.NotDone
             };
-            return await repository.AddToDo(input);
+            return repository.AddToDo(input);
         }
 
         [HttpPut]
-        public async Task<ToDo> Put([FromBody] ToDo toDo) => await repository.UpdateToDo(toDo);
+        public ToDo Put([FromBody] ToDo toDo) => repository.UpdateToDo(toDo);
 
         [HttpPatch("{id}")]
         public StatusCodeResult Patch(int id, [FromBody] JsonPatchDocument<ToDo> jsonPatch)

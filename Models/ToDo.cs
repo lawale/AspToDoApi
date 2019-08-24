@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -21,6 +22,11 @@ namespace ToDoApp.Models
 
         public DateTime DateCreated { get; set; }
 
-        public DateTime DateCompleted { get; set; }
+        public DateTime? DateCompleted { get; set; }
+
+        public ToDo()
+        {
+            Console.WriteLine(value: "Jo Sise na");
+        }
     }
 }

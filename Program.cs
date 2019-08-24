@@ -19,7 +19,7 @@ namespace ToDoApp
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
+            .UseStartup<Startup>()
             .UseKestrel()
             .UseContentRoot(Directory.GetCurrentDirectory())
             .ConfigureAppConfiguration((hostingContext, config) =>
@@ -33,7 +33,7 @@ namespace ToDoApp
             })
             .UseDefaultServiceProvider((context, options) =>
             options.ValidateScopes = context.HostingEnvironment.IsDevelopment())
-            .ConfigureLogging((hostingContext, logging) => 
+            .ConfigureLogging((hostingContext, logging) =>
             {
                 logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
                 logging.AddConsole();

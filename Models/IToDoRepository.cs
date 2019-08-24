@@ -8,11 +8,11 @@ namespace ToDoApp.Models
     {
         IQueryable<ToDo> ToDos {get;}
 
-        Task<ToDo> AddToDo(ToDo toDo);
+        ToDo AddToDo(ToDo toDo);
 
         ToDo this[int id] { get; }
 
-        Task<ToDo> UpdateToDo(ToDo toDo);
+        ToDo UpdateToDo(ToDo toDo);
 
     }
 }
