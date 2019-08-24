@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,14 +30,25 @@ namespace ToDoApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(
-                Configuration["Data:ToDoApp:ConnectionString"]));
+            {
+                options.UseSqlServer(
+                Configuration["Data:ToDoApp:ConnectionString"]);
+            });
+
+            services.AddDbContext<AppIdentityDbContext>(options =>
+            {
+                options.UseSqlServer(
+                Configuration["Data:ToDoAppIdentity:ConnectionString"]);
+            });
+
             services.AddTransient<IToDoRepository, ToDoRepository>();
             services.AddMvc(options =>
             {
                 options.Filters.Add(typeof(ValidatorActionFilter));
             });
-            
+            services.AddIdentity<AppUser, IdentityRole>()
+                .AddEntityFrameworkStores<AppIdentityDbContext>()
+                .AddDefaultTokenProviders();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +58,7 @@ namespace ToDoApp
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
         }
     }

@@ -12,7 +12,6 @@ namespace ToDoApp.Models
         public ToDoRepository(ApplicationDbContext context)
         {
             this.context = context;
-            Console.WriteLine("get here");
         }
 
         public IQueryable<ToDo> ToDos => context.ToDos;
