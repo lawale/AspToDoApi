@@ -18,9 +18,7 @@ namespace ToDoApp.Controllers
             this.repository = repository;
         }
 
-        
-
-        [HttpGet()]
+        [HttpGet]
         public IEnumerable<ToDo> Get() => repository.ToDos;
 
         [HttpGet("{id}")]

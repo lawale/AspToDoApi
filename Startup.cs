@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ToDoApp.Controllers;
 using ToDoApp.Models;
+using ToDoApp.Models.Validation;
 
 namespace ToDoApp
 {
@@ -31,7 +32,10 @@ namespace ToDoApp
             options.UseSqlServer(
                 Configuration["Data:ToDoApp:ConnectionString"]));
             services.AddTransient<IToDoRepository, ToDoRepository>();
-            services.AddMvc();
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(typeof(ValidatorActionFilter));
+            });
             
         }
 

@@ -11,7 +11,7 @@ namespace ToDoApp.Models
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Title is required")]
+        [Required(ErrorMessage = "Title of To Do Activity is required")]
         [MaxLength(25)]
         public string Title { get; set; }
 
@@ -24,9 +24,5 @@ namespace ToDoApp.Models
 
         public DateTime? DateCompleted { get; set; }
 
-        public ToDo()
-        {
-            Console.WriteLine(value: "Jo Sise na");
-        }
     }
 }
