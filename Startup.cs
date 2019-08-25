@@ -11,8 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ToDoApp.Controllers;
+using ToDoApp.Errors.Validation;
 using ToDoApp.Models;
-using ToDoApp.Models.Validation;
 
 namespace ToDoApp
 {
@@ -58,6 +58,7 @@ namespace ToDoApp
             {
                 app.UseDeveloperExceptionPage();
             }
+            
             app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
         }

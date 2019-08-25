@@ -4,8 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ToDoApp.Errors.Validation;
 
-namespace ToDoApp.Models.Validation
+namespace ToDoApp.Errors.Validation
 {
     public class ValidatorActionFilter : IActionFilter
     {
@@ -20,6 +21,7 @@ namespace ToDoApp.Models.Validation
             {
                 context.Result = new ValidationFailedResult(context.ModelState);
             }
+            
         }
     }
 }
