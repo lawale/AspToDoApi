@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ToDoApp.Errors.Validation;
@@ -15,9 +16,11 @@ namespace ToDoApp.Controllers
     public class AuthController : Controller
     {
         private UserManager<AppUser> userManager;
-        public AuthController(UserManager<AppUser> userManager)
+        private SignInManager<AppUser> SignInManager;
+        public AuthController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
             this.userManager = userManager;
+            this.SignInManager = signInManager;
         }
 
         [HttpPost("register")]
@@ -36,11 +39,14 @@ namespace ToDoApp.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<object> SignIn([FromBody] UserModel userModel)
+        public async Task<object> SignIn([FromBody] UserAuthModel userAuthModel)
         {
-            AppUser user = userModel.GetAppUser();
-            await Task.Delay(2);
-            return null;
+            AppUser user = userAuthModel.GetAppUser();
+            var result = await SignInManager.CheckPasswordSignInAsync(user, userAuthModel.Password, false);
+            if (result.Succeeded)
+                return user.GetUserModel();
+
+            return StatusCode(StatusCodes.Status503ServiceUnavailable);
         }
 
         [HttpPost("forgot-password/{email}")]
