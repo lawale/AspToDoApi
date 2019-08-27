@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ToDoApp.Models.Dto
 {
-    public class UserAuthModel
+    public class UserRegistrationModel
     {
         [Required]
         public string Email { get; set; }

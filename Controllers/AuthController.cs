@@ -9,6 +9,7 @@ using ToDoApp.Errors.Validation;
 using ToDoApp.Infrastructures;
 using ToDoApp.Models;
 using ToDoApp.Models.Dto;
+using ToDoApp.Services;
 
 namespace ToDoApp.Controllers
 {
@@ -17,29 +18,23 @@ namespace ToDoApp.Controllers
     {
         private UserManager<AppUser> userManager;
         private SignInManager<AppUser> SignInManager;
-        public AuthController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        private IIdentityService IdentityService;
+        public AuthController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IIdentityService identityService)
         {
+            IdentityService = identityService;
             this.userManager = userManager;
             this.SignInManager = signInManager;
         }
 
         [HttpPost("register")]
-        public async Task<object> Register([FromBody]UserModel userModel)
+        public async Task<IActionResult> Register([FromBody]UserRegistrationModel userModel)
         {
-            AppUser user = userModel.GetAppUser();
-            IdentityResult result = await userManager.CreateAsync(user, userModel.Password);
-            if (result.Succeeded)
-                return user.GetUserModel();
-            else
-            {
-                var value = result.Errors.Select(code => code.GetPasswordError());
-                var resultError = new ValidationResultModel("Regisration Error", value);
-                return Json(resultError);
-            }
+            var response = await IdentityService.RegisterAsync(userModel);
+            return StatusCode(StatusCodes.Status201Created,response);
         }
 
         [HttpPost("login")]
-        public async Task<object> SignIn([FromBody] UserAuthModel userAuthModel)
+        public async Task<object> SignIn([FromBody] UserRegistrationModel userAuthModel)
         {
             AppUser user = userAuthModel.GetAppUser();
             var result = await SignInManager.CheckPasswordSignInAsync(user, userAuthModel.Password, false);
@@ -57,7 +52,7 @@ namespace ToDoApp.Controllers
         }
 
         [HttpPost("reset-password")]
-        public async Task<JsonResult> ResetPassword([FromHeader] string token, [FromBody] UserAuthModel userAuthModel)
+        public async Task<JsonResult> ResetPassword([FromHeader] string token, [FromBody] UserRegistrationModel userAuthModel)
         {
             var appUser = await userManager.FindByEmailAsync(userAuthModel.Email);
             var result = await userManager.ResetPasswordAsync(appUser, token, userAuthModel.Password);

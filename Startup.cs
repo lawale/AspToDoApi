@@ -17,6 +17,7 @@ using Microsoft.IdentityModel.Tokens;
 using ToDoApp.Controllers;
 using ToDoApp.Errors.Validation;
 using ToDoApp.Models;
+using ToDoApp.Services;
 using ToDoApp.Settings;
 
 namespace ToDoApp
@@ -76,7 +77,9 @@ namespace ToDoApp
                 };
             });
 
-            services.AddIdentity<AppUser, IdentityRole>()
+            services.AddScoped<IIdentityService, IdentityService>();
+
+            services.AddIdentity<AppUser, IdentityRole>(option => option.User.RequireUniqueEmail = true)
                 .AddEntityFrameworkStores<AppIdentityDbContext>()
                 .AddDefaultTokenProviders();
         }
