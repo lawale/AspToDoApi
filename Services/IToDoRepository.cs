@@ -1,19 +1,20 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using ToDoApp.Models;
 
 namespace ToDoApp.Services
 {
     public interface IToDoRepository
     {
-        IQueryable<ToDo> ToDos {get;}
+        Task<IEnumerable<ToDo>> GetToDosAsync();
 
-        ToDo AddToDo(ToDo toDo);
+        Task<ToDo> AddToDoAsync(ToDo toDo);
 
-        ToDo this[int id] { get; }
+        ToDo GetToDoById(int id);
 
-        ToDo UpdateToDo(ToDo toDo);
+        Task<bool> UpdateToDoAsync(ToDo toDo);
 
     }
 }

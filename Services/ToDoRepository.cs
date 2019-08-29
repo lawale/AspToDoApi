@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ToDoApp.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ToDoApp.Services
 {
     public class ToDoRepository : IToDoRepository
     {
-        private ApplicationDbContext context;
+        private readonly ApplicationDbContext context;
 
         public ToDoRepository(ApplicationDbContext context)
         {
@@ -17,21 +18,27 @@ namespace ToDoApp.Services
 
         public IQueryable<ToDo> ToDos => context.ToDos;
 
+        public async Task<IEnumerable<ToDo>> GetToDosAsync() => await ToDos.ToListAsync();
+
         public ToDo this[int id] => ToDos.SingleOrDefault(t => t.Id == id);
 
 
-        public ToDo AddToDo(ToDo toDo)
+        public async Task<ToDo> AddToDoAsync(ToDo toDo)
         {
-            context.Add(toDo);
-            context.SaveChanges();
+            await context.ToDos.AddAsync(toDo);
+            await context.SaveChangesAsync();
             return toDo;
         }
 
-        public ToDo UpdateToDo(ToDo toDo)
+        public async Task<bool> UpdateToDoAsync(ToDo toDo)
         {
-            context.Update(toDo);
-            context.SaveChanges();
-            return toDo;
+            context.ToDos.Update(toDo);
+            var update = await context.SaveChangesAsync();
+            return update > 0;
         }
+
+
+        public ToDo GetToDoById(int id) => this[id];
+
     }
 }

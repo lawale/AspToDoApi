@@ -1,7 +1,11 @@
-﻿using System;
+﻿using System.IO;
+using System.Net;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -10,6 +14,7 @@ using ToDoApp.Services;
 
 namespace ToDoApp.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     public class ToDoController : Controller
     {
@@ -20,13 +25,20 @@ namespace ToDoApp.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<ToDo> Get() => repository.ToDos;
+        public async Task<IActionResult> Get() =>  Ok(await repository.GetToDosAsync());
 
         [HttpGet("{id}")]
-        public ToDo Get(int id) => repository[id];
+        public IActionResult Get([FromRoute] int id)
+        {
+            var toDo = repository.GetToDoById(id);
+            if(toDo == null)
+                return NotFound();
+            else
+            return Ok(toDo);
+        }
 
         [HttpPost]
-        public ToDo Post([FromBody] ToDo toDo) {
+        public IActionResult Post([FromBody] ToDo toDo) {
             var input = new ToDo
             {
                 Title = toDo.Title,
@@ -34,23 +46,33 @@ namespace ToDoApp.Controllers
                 DateCreated = DateTime.Now,
                 Status = Status.NotDone
             };
-            return repository.AddToDo(input);
+            //var _toDo = repository.AddToDo(input);
+            var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
+            var request = HttpContext.Request.Path;
+            var location = $"{baseUrl}{request}/{input.Id}";
+            return Created(location,input);
         }
 
-        [HttpPut]
-        public ToDo Put([FromBody] ToDo toDo) => repository.UpdateToDo(toDo);
-
-        [HttpPatch("{id}")]
-        public StatusCodeResult Patch(int id, [FromBody] JsonPatchDocument<ToDo> jsonPatch)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put([FromRoute] int id, [FromBody] ToDo toDo)
         {
-            var toDo = Get(id);
-            if (toDo != null)
-            {
-                jsonPatch.ApplyTo(toDo);
-                return Ok();
-            }
-            else
-                return NotFound();
+            var updated = await repository.UpdateToDoAsync(toDo);
+            if(updated)
+                return Ok(toDo);
+            return NotFound();
         }
+
+        // [HttpPatch("{id}")]
+        // public StatusCodeResult Patch(int id, [FromBody] JsonPatchDocument<ToDo> jsonPatch)
+        // {
+        //     var toDo = repository[id];
+        //     if (toDo != null)
+        //     {
+        //         jsonPatch.ApplyTo(toDo);
+        //         return Ok();
+        //     }
+        //     else
+        //         return NotFound();
+        // }
     }
 }
