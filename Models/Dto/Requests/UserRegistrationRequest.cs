@@ -9,6 +9,7 @@ namespace ToDoApp.Models.Dto.Requests
     public class UserRegistrationRequest
     {
         [Required]
+        [EmailAddress]
         public string Email { get; set; }
 
         [Required]

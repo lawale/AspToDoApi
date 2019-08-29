@@ -19,7 +19,7 @@ namespace ToDoApp.Errors.Validation
         {
             if (!context.ModelState.IsValid)
             {
-                //context.Result = new ValidationFailedResult(context.ModelState);
+                context.Result = new ValidationFailedResult(context.ModelState);
             }
             
         }

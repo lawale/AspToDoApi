@@ -8,21 +8,21 @@ namespace ToDoApp.Errors.Validation
 {
     public class ValidationResultModel
     {
-        public string ErrorType { get; }
+        public string Status { get; }
 
         public ValidationError[] Errors { get; }
 
         public ValidationResultModel(ModelStateDictionary modelState)
         {
-            ErrorType = "Invalid Object State";
+            Status = "failed";
             Errors = modelState.Keys
                 .SelectMany(key => modelState[key].Errors.Select(x => new ValidationError(key, x.ErrorMessage)))
                 .ToArray();
         }
 
-        public ValidationResultModel(string errorType, ValidationError[] errors)
+        public ValidationResultModel(ValidationError[] errors)
         {
-            ErrorType = errorType;
+            Status = "failed";
             Errors = errors;
         }
     }
