@@ -9,12 +9,6 @@ namespace ToDoApp.Infrastructures
 {
     public static class UserInfrastructure
     {
-        public static UserBaseModel GetUserModel(this AppUser user)
-            => new UserBaseModel { Email = user.Email, Name = user.UserName, PhoneNumber = user.PhoneNumber };
-
-        public static AppUser GetAppUser(this UserModel userModel)
-            => new AppUser { Email = userModel.Email };
-
         public static AppUser GetAppUser(this UserRegistrationRequest userAuthModel)
             => new AppUser { Email = userAuthModel.Email, UserName = userAuthModel.Email };
 
