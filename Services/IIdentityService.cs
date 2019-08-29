@@ -12,6 +12,6 @@ namespace ToDoApp.Services
     {
         Task<UserAuthenticationResult> RegisterAsync(UserRegistrationRequest user);
 
-        Task<UserAuthenticationResult> LoginAsync(UserRegistrationRequest user);
+        Task<UserAuthenticationResult> LoginAsync(UserLoginRequest user);
     }
 }

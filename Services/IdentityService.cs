@@ -51,11 +51,30 @@ namespace ToDoApp.Services
             return tokenHandler.WriteToken(token);
         }
 
-        public async Task<UserAuthenticationResult> LoginAsync(UserRegistrationRequest user)
+        public async Task<UserAuthenticationResult> LoginAsync(UserLoginRequest userModel)
         {
-            var appUser = user.GetAppUser();
-            //await userManager.password
-            return null;
+            var user = await userManager.FindByEmailAsync(userModel.Email);
+            if(user == null)
+            {
+                return new UserAuthenticationResult
+                {
+                    Success = false,
+                    Errors = new[] { new ValidationError("User", "This user does not exist")}
+                };
+            }
+
+            var isPasswordValid = await userManager.CheckPasswordAsync(user,userModel.Password);
+            if(!isPasswordValid)
+                return new UserAuthenticationResult
+                {
+                    Success = false,
+                    Errors = new[] { new ValidationError("Login", "Invalid Email/Password")}
+                };
+            return new UserAuthenticationResult
+            {
+                Token = GenerateUserToken(user),
+                Success = true
+            };
         }
 
         /// <summary>

@@ -38,14 +38,18 @@ namespace ToDoApp.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> SignIn([FromBody] UserRegistrationRequest userAuthModel)
+        public async Task<IActionResult> Login([FromBody] UserLoginRequest userAuthModel)
         {
-            // AppUser user = userAuthModel.GetAppUser();
-            // var result = await SignInManager.CheckPasswordSignInAsync(user, userAuthModel.Password, false);
-            // if (result.Succeeded)
-            //     return Ok(user.GetUserModel());
+            var response = await IdentityService.LoginAsync(userAuthModel);
+            if(!response.Success)
+            {
+                return BadRequest(new AuthFailedResponse
+                {
+                    Errors = response.Errors
+                });
+            }
 
-            return StatusCode(StatusCodes.Status503ServiceUnavailable);
+            return Ok(response);
         }
 
         [HttpPost("forgot-password/{email}")]
