@@ -10,20 +10,20 @@ namespace ToDoApp.Errors.Validation
     {
         public string ErrorType { get; }
 
-        public List<ValidationError> Errors { get; }
+        public ValidationError[] Errors { get; }
 
         public ValidationResultModel(ModelStateDictionary modelState)
         {
-            ErrorType = "Model Validation";
+            ErrorType = "Invalid Object State";
             Errors = modelState.Keys
                 .SelectMany(key => modelState[key].Errors.Select(x => new ValidationError(key, x.ErrorMessage)))
-                .ToList();
+                .ToArray();
         }
 
-        public ValidationResultModel(string errorType, IEnumerable<ValidationError> errors)
+        public ValidationResultModel(string errorType, ValidationError[] errors)
         {
             ErrorType = errorType;
-            Errors = errors as List<ValidationError>;
+            Errors = errors;
         }
     }
 }

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ToDoApp.Models;
+using ToDoApp.Models.Dto.Requests;
 using ToDoApp.Models.Dto;
-
 namespace ToDoApp.Infrastructures
 {
     public static class UserInfrastructure
@@ -15,7 +15,7 @@ namespace ToDoApp.Infrastructures
         public static AppUser GetAppUser(this UserModel userModel)
             => new AppUser { Email = userModel.Email };
 
-        public static AppUser GetAppUser(this UserRegistrationModel userAuthModel)
-            => new AppUser { Email = userAuthModel.Email };
+        public static AppUser GetAppUser(this UserRegistrationRequest userAuthModel)
+            => new AppUser { Email = userAuthModel.Email, UserName = userAuthModel.Email };
     }
 }

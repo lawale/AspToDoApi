@@ -13,6 +13,10 @@ namespace ToDoApp.Errors.Validation
 
         public string Message { get; }
 
+        // public ValidationError()
+        // {
+            
+        // }
         public ValidationError(string field, string message)
         {
             Field = Field != string.Empty ? field: null;

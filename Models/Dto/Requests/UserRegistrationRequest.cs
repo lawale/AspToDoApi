@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ToDoApp.Models.Dto
+namespace ToDoApp.Models.Dto.Requests
 {
-    public class UserRegistrationModel
+    public class UserRegistrationRequest
     {
         [Required]
         public string Email { get; set; }
