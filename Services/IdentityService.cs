@@ -9,7 +9,7 @@ using ToDoApp.Errors.Validation;
 using System.Text;
 using System.Threading.Tasks;
 using ToDoApp.Infrastructures;
-using ToDoApp.Models;
+using ToDoApp.Models.Domain;
 using ToDoApp.Models.Dto;
 using ToDoApp.Models.Dto.Requests;
 using ToDoApp.Settings;

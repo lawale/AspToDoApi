@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ToDoApp.Errors.Validation;
 using ToDoApp.Infrastructures;
-using ToDoApp.Models;
+using ToDoApp.Models.Domain;
 using ToDoApp.Models.Dto.Requests;
 using ToDoApp.Models.Dto.Responses;
 using ToDoApp.Services;

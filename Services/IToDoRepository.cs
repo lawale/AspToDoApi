@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using ToDoApp.Models;
+using ToDoApp.Models.Domain;
 
 namespace ToDoApp.Services
 {
@@ -15,6 +15,7 @@ namespace ToDoApp.Services
         ToDo GetToDoById(int id);
 
         Task<bool> UpdateToDoAsync(ToDo toDo);
-
+        
+        Task<bool> UserOwnsPostAsync(int id, string userId);
     }
 }

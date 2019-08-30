@@ -6,17 +6,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ToDoApp.Models
+namespace ToDoApp.Models.Domain
 {
     public class ToDo
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Title of To Do Activity is required")]
         [MaxLength(25)]
         public string Title { get; set; }
 
-        [Required(ErrorMessage = "Details of To Do Activiy is required")]
         public string Details { get; set; }
 
         public Status Status { get; set; }

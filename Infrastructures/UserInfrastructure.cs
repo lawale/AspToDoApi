@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ToDoApp.Models;
+using ToDoApp.Models.Domain;
 using ToDoApp.Models.Dto.Requests;
 using ToDoApp.Models.Dto;
 namespace ToDoApp.Infrastructures

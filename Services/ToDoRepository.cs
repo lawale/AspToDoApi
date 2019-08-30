@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ToDoApp.Models;
+using ToDoApp.Models.Domain;
 using Microsoft.EntityFrameworkCore;
+using ToDoApp.Models.Domain;
 
 namespace ToDoApp.Services
 {
@@ -40,5 +41,14 @@ namespace ToDoApp.Services
 
         public ToDo GetToDoById(int id) => this[id];
 
+        public async Task<bool> UserOwnsPostAsync(int id, string userId)
+        {
+            var toDo = await context.ToDos.AsNoTracking().SingleOrDefaultAsync(x => x.Id == id);
+            if(toDo == null)
+                return false;
+            if(toDo.UserId != userId)
+                return false;
+            return true;
+        }
     }
 }

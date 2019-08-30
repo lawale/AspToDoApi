@@ -16,7 +16,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using ToDoApp.Controllers;
 using ToDoApp.Errors.Validation;
-using ToDoApp.Models;
+using ToDoApp.Models.Domain;
 using ToDoApp.Services;
 using ToDoApp.Settings;
 
