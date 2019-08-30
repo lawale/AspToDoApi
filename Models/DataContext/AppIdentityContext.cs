@@ -4,8 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ToDoApp.Models.Domain;
 
-namespace ToDoApp.Models.Domain
+namespace ToDoApp.Models.DataContext
 {
     public class AppIdentityDbContext : IdentityDbContext<AppUser>
     {
@@ -14,5 +15,7 @@ namespace ToDoApp.Models.Domain
         {
                 
         }
+
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
     }
 }

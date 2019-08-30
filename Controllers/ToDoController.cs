@@ -18,7 +18,7 @@ using ToDoApp.Errors.Validation;
 
 namespace ToDoApp.Controllers
 {
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     public class ToDoController : Controller
     {
@@ -29,7 +29,7 @@ namespace ToDoApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get() =>  Ok(await repository.GetToDosAsync());
+        public async Task<IActionResult> Get() =>  Ok((await repository.GetToDosAsync()).Select(x => x.GetToDoResponse()));
 
         [HttpGet("{id}")]
         public IActionResult Get([FromRoute] int id)
@@ -38,7 +38,7 @@ namespace ToDoApp.Controllers
             if(toDo == null)
                 return NotFound();
             else
-            return Ok(toDo);
+            return Ok(toDo.GetToDoResponse());
         }
 
         [HttpPost]
@@ -48,7 +48,7 @@ namespace ToDoApp.Controllers
             var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
             var request = HttpContext.Request.Path;
             var location = $"{baseUrl}{request}/{toDo.Id}";
-            return Created(location,toDo);
+            return Created(location,toDo.GetToDoResponse());
         }
 
         [HttpPut("{id}")]
@@ -64,7 +64,7 @@ namespace ToDoApp.Controllers
             var toDo = toDoRequest.GetToDo();
             var updated = await repository.UpdateToDoAsync(toDo);
             if(updated)
-                return Ok(toDo);
+                return Ok(toDo.GetToDoResponse());
             return NotFound();
         }
 

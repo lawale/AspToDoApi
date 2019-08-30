@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ToDoApp.Models.Domain;
 using Microsoft.EntityFrameworkCore;
-using ToDoApp.Models.Domain;
+using ToDoApp.Models.DataContext;
 
 namespace ToDoApp.Services
 {

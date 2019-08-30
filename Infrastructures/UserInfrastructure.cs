@@ -14,5 +14,8 @@ namespace ToDoApp.Infrastructures
 
         public static AppUser GetAppUser(this UserLoginRequest userAuthModel)
             => new AppUser { Email = userAuthModel.Email };
+
+        public static AppUser TryGetAppUser(this string email)
+            => new AppUser { Email = email, UserName = email };
     }
 }

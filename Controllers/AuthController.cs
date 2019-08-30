@@ -24,9 +24,9 @@ namespace ToDoApp.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody]UserRegistrationRequest userModel)
+        public async Task<IActionResult> Register([FromBody]UserRegistrationRequest request)
         {
-            var response = await IdentityService.RegisterAsync(userModel);
+            var response = await IdentityService.RegisterAsync(request.Email, request.Password);
             if(!response.Success)
             {
                 return BadRequest(new AuthFailedResponse
@@ -38,9 +38,9 @@ namespace ToDoApp.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] UserLoginRequest userAuthModel)
+        public async Task<IActionResult> Login([FromBody] UserLoginRequest request)
         {
-            var response = await IdentityService.LoginAsync(userAuthModel);
+            var response = await IdentityService.LoginAsync(request.Email, request.Password);
             if(!response.Success)
             {
                 return BadRequest(new AuthFailedResponse
@@ -51,6 +51,14 @@ namespace ToDoApp.Controllers
 
             return Ok(response);
         }
+
+        [HttpPost("refresh")]
+        public async Task<IActionResult> Refresh([FromBody] RefreshTokenRequest request)
+        {
+            var response = await IdentityService.RefreshTokenAsync(request.Token, request.RefreshToken);
+            return Ok(response);
+        }
+        
 
         [HttpPost("forgot-password/{email}")]
         public async Task ForgotPassword(string email)

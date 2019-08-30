@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ToDoApp.Models.Domain;
+using ToDoApp.Models.DataContext;
 
-namespace ToDoApp.Migrations.AppIdentityDb
+namespace ToDoApp.Migrations
 {
     [DbContext(typeof(AppIdentityDbContext))]
-    partial class AppIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190830112143_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -129,7 +131,7 @@ namespace ToDoApp.Migrations.AppIdentityDb
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ToDoApp.Models.AppUser", b =>
+            modelBuilder.Entity("ToDoApp.Models.Domain.AppUser", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -190,7 +192,7 @@ namespace ToDoApp.Migrations.AppIdentityDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("ToDoApp.Models.AppUser")
+                    b.HasOne("ToDoApp.Models.Domain.AppUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -198,7 +200,7 @@ namespace ToDoApp.Migrations.AppIdentityDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("ToDoApp.Models.AppUser")
+                    b.HasOne("ToDoApp.Models.Domain.AppUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -211,7 +213,7 @@ namespace ToDoApp.Migrations.AppIdentityDb
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ToDoApp.Models.AppUser")
+                    b.HasOne("ToDoApp.Models.Domain.AppUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -219,7 +221,7 @@ namespace ToDoApp.Migrations.AppIdentityDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("ToDoApp.Models.AppUser")
+                    b.HasOne("ToDoApp.Models.Domain.AppUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);

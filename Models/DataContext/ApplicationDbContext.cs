@@ -3,8 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ToDoApp.Models.Domain;
 
-namespace ToDoApp.Models.Domain
+namespace ToDoApp.Models.DataContext
 {
     public class ApplicationDbContext : DbContext
     {
@@ -12,5 +13,6 @@ namespace ToDoApp.Models.Domain
             : base(options) {   }
 
         public DbSet<ToDo> ToDos { get; set; }
+
     }
 }

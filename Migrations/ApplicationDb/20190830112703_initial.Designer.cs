@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ToDoApp.Models.Domain;
+using ToDoApp.Models.DataContext;
 
-namespace ToDoApp.Migrations
+namespace ToDoApp.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190829181311_UserInToDoModel")]
-    partial class UserInToDoModel
+    [Migration("20190830112703_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace ToDoApp.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ToDoApp.Models.AppUser", b =>
+            modelBuilder.Entity("ToDoApp.Models.Domain.AppUser", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -59,7 +59,31 @@ namespace ToDoApp.Migrations
                     b.ToTable("AppUser");
                 });
 
-            modelBuilder.Entity("ToDoApp.Models.ToDo", b =>
+            modelBuilder.Entity("ToDoApp.Models.Domain.RefreshToken", b =>
+                {
+                    b.Property<string>("Token")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<DateTime>("ExpiryDate");
+
+                    b.Property<bool>("Invalidated");
+
+                    b.Property<string>("JwtId");
+
+                    b.Property<bool>("Used");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Token");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RefreshTokens");
+                });
+
+            modelBuilder.Entity("ToDoApp.Models.Domain.ToDo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -69,13 +93,11 @@ namespace ToDoApp.Migrations
 
                     b.Property<DateTime>("DateCreated");
 
-                    b.Property<string>("Details")
-                        .IsRequired();
+                    b.Property<string>("Details");
 
                     b.Property<int>("Status");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasMaxLength(25);
 
                     b.Property<string>("UserId");
@@ -87,9 +109,16 @@ namespace ToDoApp.Migrations
                     b.ToTable("ToDos");
                 });
 
-            modelBuilder.Entity("ToDoApp.Models.ToDo", b =>
+            modelBuilder.Entity("ToDoApp.Models.Domain.RefreshToken", b =>
                 {
-                    b.HasOne("ToDoApp.Models.AppUser", "User")
+                    b.HasOne("ToDoApp.Models.Domain.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("ToDoApp.Models.Domain.ToDo", b =>
+                {
+                    b.HasOne("ToDoApp.Models.Domain.AppUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
                 });

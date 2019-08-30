@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ToDoApp.Models.Domain;
+using ToDoApp.Models.DataContext;
 
-namespace ToDoApp.Migrations
+namespace ToDoApp.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190824060811_NullableDateCompleted")]
-    partial class NullableDateCompleted
+    [Migration("20190830135601_RemovedAppUserKey")]
+    partial class RemovedAppUserKey
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace ToDoApp.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ToDoApp.Models.ToDo", b =>
+            modelBuilder.Entity("ToDoApp.Models.Domain.ToDo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -31,14 +31,14 @@ namespace ToDoApp.Migrations
 
                     b.Property<DateTime>("DateCreated");
 
-                    b.Property<string>("Details")
-                        .IsRequired();
+                    b.Property<string>("Details");
 
                     b.Property<int>("Status");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasMaxLength(25);
+
+                    b.Property<string>("UserId");
 
                     b.HasKey("Id");
 

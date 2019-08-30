@@ -3,17 +3,15 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ToDoApp.Models.Domain;
+using ToDoApp.Models.DataContext;
 
-namespace ToDoApp.Migrations.AppIdentityDb
+namespace ToDoApp.Migrations
 {
     [DbContext(typeof(AppIdentityDbContext))]
-    [Migration("20190824145345_UserAuth")]
-    partial class UserAuth
+    partial class AppIdentityDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -131,7 +129,7 @@ namespace ToDoApp.Migrations.AppIdentityDb
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ToDoApp.Models.AppUser", b =>
+            modelBuilder.Entity("ToDoApp.Models.Domain.AppUser", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -182,6 +180,30 @@ namespace ToDoApp.Migrations.AppIdentityDb
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("ToDoApp.Models.Domain.RefreshToken", b =>
+                {
+                    b.Property<string>("Token")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<DateTime>("ExpiryDate");
+
+                    b.Property<bool>("Invalidated");
+
+                    b.Property<string>("JwtId");
+
+                    b.Property<bool>("Used");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Token");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RefreshTokens");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
@@ -192,7 +214,7 @@ namespace ToDoApp.Migrations.AppIdentityDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("ToDoApp.Models.AppUser")
+                    b.HasOne("ToDoApp.Models.Domain.AppUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -200,7 +222,7 @@ namespace ToDoApp.Migrations.AppIdentityDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("ToDoApp.Models.AppUser")
+                    b.HasOne("ToDoApp.Models.Domain.AppUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -213,7 +235,7 @@ namespace ToDoApp.Migrations.AppIdentityDb
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ToDoApp.Models.AppUser")
+                    b.HasOne("ToDoApp.Models.Domain.AppUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -221,10 +243,17 @@ namespace ToDoApp.Migrations.AppIdentityDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("ToDoApp.Models.AppUser")
+                    b.HasOne("ToDoApp.Models.Domain.AppUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ToDoApp.Models.Domain.RefreshToken", b =>
+                {
+                    b.HasOne("ToDoApp.Models.Domain.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }

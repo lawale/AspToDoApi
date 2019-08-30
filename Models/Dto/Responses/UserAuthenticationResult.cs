@@ -12,5 +12,7 @@ namespace ToDoApp.Models.Dto.Responses
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string Token { get; set; }
+
+        public string RefreshToken { get; set; }
     }
 }

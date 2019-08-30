@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ToDoApp.Models.Domain;
+using ToDoApp.Models.DataContext;
 
-namespace ToDoApp.Migrations
+namespace ToDoApp.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190830114920_RemovedRefreshTokenFromApplicationDb")]
+    partial class RemovedRefreshTokenFromApplicationDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,7 +21,7 @@ namespace ToDoApp.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ToDoApp.Models.AppUser", b =>
+            modelBuilder.Entity("ToDoApp.Models.Domain.AppUser", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -57,7 +59,7 @@ namespace ToDoApp.Migrations
                     b.ToTable("AppUser");
                 });
 
-            modelBuilder.Entity("ToDoApp.Models.ToDo", b =>
+            modelBuilder.Entity("ToDoApp.Models.Domain.ToDo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -67,13 +69,11 @@ namespace ToDoApp.Migrations
 
                     b.Property<DateTime>("DateCreated");
 
-                    b.Property<string>("Details")
-                        .IsRequired();
+                    b.Property<string>("Details");
 
                     b.Property<int>("Status");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasMaxLength(25);
 
                     b.Property<string>("UserId");
@@ -85,9 +85,9 @@ namespace ToDoApp.Migrations
                     b.ToTable("ToDos");
                 });
 
-            modelBuilder.Entity("ToDoApp.Models.ToDo", b =>
+            modelBuilder.Entity("ToDoApp.Models.Domain.ToDo", b =>
                 {
-                    b.HasOne("ToDoApp.Models.AppUser", "User")
+                    b.HasOne("ToDoApp.Models.Domain.AppUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
                 });
