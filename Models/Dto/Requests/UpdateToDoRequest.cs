@@ -5,9 +5,7 @@ namespace ToDoApp.Models.Dto.Requests
 {
     public class UpdateToDoRequest
     {
-        public string Title { get; set; }
-
-        public string Details { get; set; }
+        public int Id { get; set; }
 
         public Status Status { get; set; }
 

@@ -14,7 +14,7 @@ namespace ToDoApp.Services
 
         ToDo GetToDoById(int id);
 
-        Task<bool> UpdateToDoAsync(ToDo toDo);
+        Task<ToDo> UpdateToDoAsync(int id,ToDo toDo);
         
         Task<bool> UserOwnsPostAsync(int id, string userId);
     }

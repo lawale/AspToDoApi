@@ -12,7 +12,7 @@ namespace ToDoApp.Infrastructures
             => new ToDo { Title = toDoRequest.Title, Details = toDoRequest.Details, DateCreated = DateTime.UtcNow, Status = Status.NotDone, UserId = context.GetUserId() };
 
             public static ToDo GetToDo(this UpdateToDoRequest toDoRequest)
-            => new ToDo { Title = toDoRequest.Title, Details = toDoRequest.Details, Status = toDoRequest.Status };
+            => new ToDo { Id = toDoRequest.Id, DateCompleted = toDoRequest.DateCompleted, Status = toDoRequest.Status };
 
             public static ToDoResponse GetToDoResponse(this ToDo toDo)
                 => new ToDoResponse{

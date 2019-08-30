@@ -54,16 +54,31 @@ namespace ToDoApp.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put([FromRoute] int id, [FromBody] UpdateToDoRequest toDoRequest)
         {
+            if(id != toDoRequest.Id)
+            {
+                var error = new ValidationError("To Do", "Id from route does not match Id from route");
+                var validation = new ValidationResultModel(new[] {error});
+                return BadRequest(validation);
+            }
             var isOwner = await repository.UserOwnsPostAsync(id, HttpContext.GetUserId());
+            
             if(!isOwner)
             {
                 var error = new ValidationError("To Do", "You do not own the ToDo acticity you're trying to update");
                 var validation = new ValidationResultModel(new[] {error});
                 return Unauthorized(validation);
             }
+
+            if(toDoRequest.Status == Status.Done && toDoRequest.DateCompleted == null)
+            {
+                var error = new ValidationError("To Do", "Set Date Completed when Task Status is Completed. Preferably Utc");
+                var validation = new ValidationResultModel(new[] {error});
+                return BadRequest(validation);
+            }
             var toDo = toDoRequest.GetToDo();
-            var updated = await repository.UpdateToDoAsync(toDo);
-            if(updated)
+            toDo = await repository.UpdateToDoAsync(id, toDo);
+            
+            if(toDo != null)
                 return Ok(toDo.GetToDoResponse());
             return NotFound();
         }

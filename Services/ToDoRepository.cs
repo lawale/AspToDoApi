@@ -31,11 +31,16 @@ namespace ToDoApp.Services
             return toDo;
         }
 
-        public async Task<bool> UpdateToDoAsync(ToDo toDo)
+        public async Task<ToDo> UpdateToDoAsync(int id,ToDo toDo)
         {
-            context.ToDos.Update(toDo);
-            var update = await context.SaveChangesAsync();
-            return update > 0;
+            var _toDo = GetToDoById(id);
+            if(_toDo == null)
+                return null;
+            Console.WriteLine(_toDo);
+            _toDo.Status = toDo.Status;
+            _toDo.DateCompleted = toDo.DateCompleted;
+            await context.SaveChangesAsync();
+            return _toDo;
         }
 
 
