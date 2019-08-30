@@ -50,7 +50,7 @@ namespace ToDoApp.Services
                     new Claim(JwtRegisteredClaimNames.Email, user.Email),
                     new Claim("id", user.Id)
                 }),
-                Expires = DateTime.UtcNow.AddHours(2),
+                Expires = DateTime.UtcNow.Add(jwtSettings.TokenLifeTime),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
