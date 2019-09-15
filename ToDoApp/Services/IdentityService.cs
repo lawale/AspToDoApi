@@ -25,11 +25,11 @@ namespace ToDoApp.Services
 
         private readonly JwtSettings jwtSettings;
 
-        private readonly AppIdentityDbContext context;
+        private readonly ApplicationDbContext context;
 
         private readonly TokenValidationParameters tokenValidationParameters;
 
-        public IdentityService(UserManager<AppUser> userManager, JwtSettings jwtSettings, TokenValidationParameters tokenValidationParameters, AppIdentityDbContext context)
+        public IdentityService(UserManager<AppUser> userManager, JwtSettings jwtSettings, TokenValidationParameters tokenValidationParameters, ApplicationDbContext context)
         {
             this.userManager = userManager;
             this.jwtSettings = jwtSettings;

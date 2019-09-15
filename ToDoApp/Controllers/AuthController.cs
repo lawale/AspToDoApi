@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Security.AccessControl;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -63,6 +64,7 @@ namespace ToDoApp.Controllers
         [HttpPost("forgot-password/{email}")]
         public async Task ForgotPassword(string email)
         {
+            await Task.Delay(1);
             // var appUser = await userManager.FindByEmailAsync(email);
             // var token = await userManager.GeneratePasswordResetTokenAsync(appUser);
         }
@@ -70,6 +72,7 @@ namespace ToDoApp.Controllers
         [HttpPost("reset-password")]
         public async Task<JsonResult> ResetPassword([FromHeader] string token, [FromBody] UserRegistrationRequest userAuthModel)
         {
+            await Task.Delay(1);
             // var appUser = await userManager.FindByEmailAsync(userAuthModel.Email);
             // var result = await userManager.ResetPasswordAsync(appUser, token, userAuthModel.Password);
             // if(result.Succeeded)

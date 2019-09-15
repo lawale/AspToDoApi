@@ -21,8 +21,8 @@ namespace ToDoApp.Models.Domain
 
         public string UserId {get; set;}
 
-        //[ForeignKey(nameof(UserId))]
-        //public AppUser User {get; set;}
+        [ForeignKey(nameof(UserId))]
+        public AppUser User {get; set;}
 
         public DateTime DateCreated { get; set; }
 

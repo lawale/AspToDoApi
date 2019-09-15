@@ -15,7 +15,7 @@
 
 #configuration settings
 appsettings.staging.json
-appsettings.production.json
+appsettings.Production.json
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
